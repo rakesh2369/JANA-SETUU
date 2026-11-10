@@ -1,0 +1,129 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Scheme {
+  id                      String            @id @default(cuid())
+  slug                    String            @unique
+  titleEn                 String
+  titleTe                 String
+  category                String            // Education, Agriculture, Women, Pension, Employment, Health, Housing, Welfare
+  departmentEn            String
+  departmentTe            String
+  level                   String            @default("State") // State, Central
+  state                   String            @default("Andhra Pradesh")
+  descriptionEn           String
+  descriptionTe           String
+  benefitsEn              String
+  benefitsTe              String
+  eligibilitySummaryEn    String
+  eligibilitySummaryTe    String
+  requiredDocsJson        String            // JSON array of documents: [{ nameEn, nameTe, descriptionEn, descriptionTe, whereToGet }]
+  applicationProcessEn    String
+  applicationProcessTe    String
+  officialUrl             String
+  portalName              String
+  helpline                String?
+  deadline                String?
+  verifiedDate            DateTime          @default(now())
+  isVerified              Boolean           @default(true)
+  isActive                Boolean           @default(true)
+  targetBeneficiariesJson String            // JSON array: ["Students", "Farmers", "Women", etc.]
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+
+  rules                   EligibilityRule[]
+  savedBy                 SavedScheme[]
+  checklistItems          ChecklistItem[]
+}
+
+model EligibilityRule {
+  id                    String   @id @default(cuid())
+  schemeId              String
+  scheme                Scheme   @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+  minAge                Int?
+  maxAge                Int?
+  gender                String   @default("ALL") // ALL, FEMALE, MALE
+  allowedCastesJson     String   @default("[\"ALL\"]") // ["SC", "ST", "BC", "OC", "Minority", "ALL"]
+  maxAnnualIncome       Float?   // in Rupees
+  studentOnly           Boolean  @default(false)
+  minEducationLevel     String?  // School, Intermediate, Degree, PostGraduate, Professional
+  farmerOnly            Boolean  @default(false)
+  maxLandAcresWet       Float?   // Wet land limit in acres
+  maxLandAcresDry       Float?   // Dry land limit in acres
+  womanOnly             Boolean  @default(false)
+  seniorCitizenOnly     Boolean  @default(false)
+  disabilityMinPercent  Int?     // PwD % minimum
+  stateResidentOnly     Boolean  @default(true)
+  conditionsJson        String?  // JSON array of specific condition statements
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model User {
+  id                String             @id @default(cuid())
+  name              String
+  email             String             @unique
+  passwordHash      String
+  role              String             @default("CITIZEN") // CITIZEN, ADMIN
+  state             String             @default("Andhra Pradesh")
+  preferredLanguage String             @default("en") // en, te
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  savedSchemes      SavedScheme[]
+  assessments       AssessmentRecord[]
+  checklist         ChecklistItem[]
+  auditLogs         AuditLog[]
+}
+
+model SavedScheme {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schemeId  String
+  scheme    Scheme   @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+  notes     String?
+  createdAt DateTime @default(now())
+
+  @@unique([userId, schemeId])
+}
+
+model ChecklistItem {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schemeId     String
+  scheme       Scheme   @relation(fields: [schemeId], references: [id], onDelete: Cascade)
+  documentName String
+  isPrepared   Boolean  @default(false)
+  notes        String?
+  updatedAt    DateTime @updatedAt
+
+  @@unique([userId, schemeId, documentName])
+}
+
+model AssessmentRecord {
+  id                 String   @id @default(cuid())
+  userId             String?
+  user               User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  profileInputJson   String   // User answers
+  matchedSchemesJson String   // Evaluated result data
+  createdAt          DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  adminId     String?
+  admin       User?    @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  action      String   // SCHEME_CREATED, SCHEME_UPDATED, SCHEME_DELETED, RULE_UPDATED
+  entityType  String   // SCHEME, RULE, CATEGORY
+  entityId    String
+  detailsJson String
+  createdAt   DateTime @default(now())
+}
