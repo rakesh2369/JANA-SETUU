@@ -170,3 +170,4 @@ Test Results:
 ## 📜 Public Notice & Transparency Disclaimer
 
 JanSetu is an informational guidance platform grounded in verified public data. JanSetu does not issue government sanctions, process fund transfers, or guarantee benefit approvals. All applications must be submitted directly through official government portals (such as Jnanabhumi, Navasakam, Rythu Bharosa) or physically at Grama/Ward Sachivalayams.
+

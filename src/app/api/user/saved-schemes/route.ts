@@ -84,3 +84,4 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: "Failed to remove saved scheme" }, { status: 500 });
   }
 }
+

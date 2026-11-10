@@ -422,3 +422,4 @@ function generateFollowUps(
     `Where is the official application portal and helpline?`,
   ];
 }
+

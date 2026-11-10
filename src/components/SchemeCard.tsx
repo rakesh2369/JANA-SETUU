@@ -186,3 +186,4 @@ export default function SchemeCard({ scheme, isSaved = false, onToggleSave }: Sc
     </div>
   );
 }
+

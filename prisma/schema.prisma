@@ -127,3 +127,4 @@ model AuditLog {
   detailsJson String
   createdAt   DateTime @default(now())
 }
+

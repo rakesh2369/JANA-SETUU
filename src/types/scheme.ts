@@ -141,3 +141,4 @@ export interface ChatMessage {
   followUps?: string[];
   timestamp: string;
 }
+
