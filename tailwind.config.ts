@@ -57,8 +57,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-        display: ["Manrope", "Segoe UI", "system-ui", "sans-serif"],
+        sans: ["Aptos", "Segoe UI Variable Text", "Segoe UI", "sans-serif"],
+        display: ["Aptos Display", "Segoe UI Variable Display", "Trebuchet MS", "sans-serif"],
         telugu: ["Noto Sans Telugu", "Gautami", "Vani", "sans-serif"],
       },
     },

@@ -104,11 +104,11 @@ export default function HomePage() {
   return (
     <div className="space-y-16 pb-16">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-navy-900 via-navy-900 to-navy-950 text-white pt-16 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="home-hero relative text-white pt-16 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Subtle decorative grid */}
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#2dd4bf_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div aria-hidden="true" className="home-hero-grid absolute inset-0"></div>
 
-        <div className="max-w-5xl mx-auto text-center relative z-10 space-y-6">
+        <div className="home-hero-content max-w-5xl mx-auto text-center relative z-10 space-y-6">
           {/* Trust Badge */}
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-400/30 text-teal-300 text-xs font-medium">
             <ShieldCheck className="w-4 h-4 text-teal-400" />
@@ -198,7 +198,7 @@ export default function HomePage() {
               <a
                 key={idx}
                 href={cat.href}
-                className="bg-white rounded-2xl border border-navy-100 p-6 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between hover:border-teal-300"
+                className="home-category bg-white rounded-xl border border-navy-100 p-6 shadow-xs hover:shadow-md transition-all group flex flex-col justify-between hover:border-teal-300"
               >
                 <div>
                   <div className="w-12 h-12 rounded-xl bg-navy-50 group-hover:bg-teal-50 flex items-center justify-center text-teal-700 transition mb-4">
